@@ -1,9 +1,9 @@
 
-# LVM REST API 🔄
+# LVM REST API
 
 A simple REST API for interacting with LVM (Logical Volume Manager) on Linux systems.
 
-## 📥 Installation
+## Installation
 
 1. Clone the repository:
 
@@ -24,7 +24,7 @@ A simple REST API for interacting with LVM (Logical Volume Manager) on Linux sys
    npm run start
    ```
 
-## 🚀 Usage Examples
+## Usage Examples
 
 ### List Physical Drives
 
@@ -89,7 +89,7 @@ curl -X GET localhost:3000/api/volume
 }]
 ```
 
-## 📝 Notes
+## Notes
 
 - Ensure you have appropriate permissions to manage LVM (might require sudo privileges)
 - Size parameter should be specified in bytes
@@ -99,5 +99,3 @@ curl -X GET localhost:3000/api/volume
 
 > **Warning**  
 > This API provides direct access to LVM operations. Use with caution in production environments and ensure proper authentication/authorization is implemented.
-
-🛠️ **Happy volume management!** 🐧
