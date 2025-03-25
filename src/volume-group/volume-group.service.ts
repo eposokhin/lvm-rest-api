@@ -28,17 +28,12 @@ export class VolumeGroupService {
   }
 
   async findAll(): Promise<VolumeGroup[]> {
-    try {
+    const { stdout } = await execPromise('vgs --reportformat json')
+    const result = JSON.parse(stdout)
+    const mappedData = result.report[0].vg.map(async vg_ => ({
+      name: (await this.volumeGroupStorage.findByHash(vg_.vg_name))?.name
+    }))
 
-      const { stdout, stderr } = await execPromise('vgs --reportformat json')
-      const result = JSON.parse(stdout)
-      const mappedData = result.report[0].vg.map(async vg_ => ({
-        name: (await this.volumeGroupStorage.findByHash(vg_.vg_name))?.name
-      }))
-
-      return Promise.all(mappedData)
-    } catch (error) {
-      throw error
-    }
+    return Promise.all(mappedData)
   }
 }

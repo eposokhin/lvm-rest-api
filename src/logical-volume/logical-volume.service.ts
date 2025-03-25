@@ -28,22 +28,18 @@ export class LogicalVolumeService {
   }
 
   async findAll(): Promise<LogicalVolume[]> {
-    try {
-      const { stdout } = await execPromise('lvs --reportformat json')
-      const result = JSON.parse(stdout)
+    const { stdout } = await execPromise('lvs --reportformat json')
+    const result = JSON.parse(stdout)
 
-      const mappedData = result.report[0].lv.map(async v => {
-        const result = await this.logicalVolumeStorage.findByHash(v.lv_name)
-        return {
-          name: result?.lv.name,
-          vg_id: result?.lv.vg_id,
-          size: parseInt(v.lv_size) * 1024 * 1024
-        }
-      })
+    const mappedData = result.report[0].lv.map(async v => {
+      const result = await this.logicalVolumeStorage.findByHash(v.lv_name)
+      return {
+        name: result?.lv.name,
+        vg_id: result?.lv.vg_id,
+        size: parseInt(v.lv_size) * 1024 * 1024
+      }
+    })
 
-      return Promise.all(mappedData)
-    } catch (error) {
-      throw new BadRequestException(error.stderr.trim())
-    }
+    return Promise.all(mappedData)
   }
 }
